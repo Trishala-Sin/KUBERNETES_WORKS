@@ -112,7 +112,7 @@ But, in practice, we would like to have a fault-tolerant and scalable solution,
 which can be achieved by creating a single controller/management unit, after connecting multiple nodes together. 
 This controller/management unit is generally referred to as a container orchestrator. 
 
-![Containerization](/img/Container.png?raw=true)
+![Containerization](https://github.com/Trishala-Sin/KUBERNETES_WORKS/blob/master/img/Container.PNG?raw=true)
 
 
 #### 	Define the concept of container orchestration : 
