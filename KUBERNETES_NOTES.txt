@@ -104,6 +104,7 @@ success stories :
 5)	Pinterest - a social media services provider, started the refactoring process by first migrating their monolith API.
 
 CONTAINER ORCHESTRISATION :
+
 With container images, we confine the application code, its runtime, and all of its dependencies in a pre-defined format. 
 And, with container runtimes like runC, containerd, or cri-o we can use those pre-packaged images, to create one or more containers. 
 All of these runtimes are good at running containers on a single host. 
@@ -112,6 +113,13 @@ which can be achieved by creating a single controller/management unit, after con
 This controller/management unit is generally referred to as a container orchestrator. 
 
 #### 	Define the concept of container orchestration : 
+
+Containers :
+are an application-centric method to deliver high-performing, scalable applications on any infrastructure 
+of your choice. Containers are best suited to deliver microservices by providing portable, isolated virtual environments
+for applications to run without interference from other running applications.
+
+
 
 ####	Explain the benefits of using container orchestration:
 
