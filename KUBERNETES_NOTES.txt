@@ -1,17 +1,16 @@
-Kubernetes Notes: 
+#### Kubernetes Notes: 
 
 With modern web services, users expect applications to be available 24/7, 
 and developers expect to deploy new versions of those applications several times a day. 
-Containerization helps package software to serve these goals, enabling applications to 
-be released and updated without downtime. 
+Containerization helps package software to serve these goals, enabling applications to be released and updated without downtime. 
+
 Kubernetes helps you make sure those containerized applications run where and when you want, 
-and helps them find the resources and tools they need to work. Kubernetes is a production-ready, 
-open source platform designed with Google's accumulated experience in container orchestration, 
+and helps them find the resources and tools they need to work. 
+Kubernetes is a production-ready, open source platform designed with Google's accumulated experience in container orchestration, 
 combined with best-of-breed ideas from the community.
 
 
-
-manage a simple cluster and its containerized applications : 
+It might be invovled in managing a simple cluster and its containerized applications: 
 *	Deploy a containerized application on a cluster.
 *	Scale the deployment.
 *	Update the containerized application with a new software version.
@@ -19,3 +18,38 @@ manage a simple cluster and its containerized applications :
 
 A Kubernetes Pod is a group of one or more Containers, tied together for the purposes of administration and networking. 
 A Deployment provides declarative updates for Pods and ReplicaSets.
+
+Legacy apps : tradional applications buid on old programming paradigm.
+Not all legacy apps are fit for cloud. Newer applications are cloud friendly while there exists companys which built thier success 
+decades ago on top of legacy technologies - MONOLITHIC APPLICATIONS.
+
+#### Monolith services : 
+
+monolithic applications with all components tightly coupled and almost impossible to separate, 
+a nightmare to manage and deployed on super expensive hardware.
+A monolith has a rather expensive taste in hardware. 
+Being a large, single piece of software which continuously grows, it has to run on a single system which has to 
+satisfy its compute, memory, storage, and networking requirements.The hardware of such capacity is both complex and extremely pricey.
+
+Since the entire monolith application runs as a single process, the scaling of individual features of the monolith is almost impossible.
+However, scaling the entire application can be achieved by manually deploying a new instance of the monolith on another server, 
+typically behind a load balancing appliance - another pricey solution.
+During upgrades, patches or migrations of the monolith application downtime is inevitable and maintenance 
+windows have to be planned well in advance as disruptions in service are expected to impact clients. 
+While there are third party solutions to minimize downtime to customers by setting up monolith applications 
+in a highly available active/passive configuration, they introduce new challenges for system engineers 
+to keep all systems at the same patch level and may introduce new possible licensing costs.
+
+#### Microservices and advantages : 
+
+Microservices can be deployed individually on separate servers provisioned with fewer resources 
+- only what is required by each service and the host system itself, helping to lower compute resource expenses.
+
+Microservices-based architecture is aligned with Event-driven Architecture and Service-Oriented Architecture (SOA) principles, 
+where complex applications are composed of small independent processes which communicate with each other through APIs over a network. 
+APIs allow access by other internal services of the same application or external, third-party services and applications.
+
+Each microservice is developed and written in a modern programming language, selected to be the best suitable for the type of service and its business function.
+This offers a great deal of flexibility when matching microservices with specific hardware when required, allowing deployments on inexpensive commodity hardware.
+
+#### From Monolith to Microservices :
