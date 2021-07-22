@@ -93,7 +93,7 @@ whether a monolith is a possible candidate for refactoring, there are many possi
 
 Issues : 
 1) When considering a legacy Mainframe based system, written in older programming languages - Cobol or Assembler, it may be more economical to just re-build it from the ground up as a cloud-native application. A poorly designed legacy application should be re-designed and re-built from scratch following modern architectural patterns for microservices and even containers. Applications tightly coupled with data stores are also poor candidates for refactoring.
-2)Once the monolith survived the refactoring phase, the next challenge is to design mechanisms or find suitable tools to keep alive all the decoupled modules to ensure application resiliency as a whole. 
+2) Once the monolith survived the refactoring phase, the next challenge is to design mechanisms or find suitable tools to keep alive all the decoupled modules to ensure application resiliency as a whole. 
 3) Choosing runtimes may be another challenge. If deploying many modules on a single physical or virtual server, chances are that different libraries and runtime environment may conflict with one another causing errors and failures. 
 This forces deployments of single modules per servers in order to separate their dependencies - not an economical way of resource management, and no real segregation of libraries and runtimes, as each server also has an underlying Operating System running with its libraries, thus consuming server resources - at times the OS consuming more resources than the application module itself.
 
@@ -160,7 +160,7 @@ Most container orchestrators can:
 
 
 There are many solutions available, some are mere re-distributions of well-established container orchestration tools, 
-enriched with features and, sometimes, with certain limitations in flexibility.
+enriched with features and with certain limitations in flexibility.
 Different container orchestration tools and services available today:
 *	Amazon Elastic Container Service
 Amazon Elastic Container Service (ECS) is a hosted service provided by Amazon Web Services (AWS) to run Docker containers at scale on its infrastructure.
@@ -178,7 +178,9 @@ Nomad is the container and workload orchestrator provided by HashiCorp.
 Docker Swarm is a container orchestrator provided by Docker, Inc. It is part of Docker Engine.
 
 ### Where to Deploy Container Orchestrators?
-
+####	Discuss different container orchestration deployment options:
+####	Discuss different container orchestration options:
+####	Explain the benefits of using container orchestration:
 Most container orchestrators can be deployed on the infrastructure of our choice 
 - on bare metal, Virtual Machines, on-premise, on public and hybrid cloud. 
 Kubernetes, for example, can be deployed on a workstation, with or without a local hypervisor such as Oracle VirtualBox, 
@@ -194,8 +196,54 @@ offered and hosted by the major cloud providers, such as Amazon Elastic Kubernet
 DigitalOcean Kubernetes, Google Kubernetes Engine (GKE), IBM Cloud Kubernetes Service, Oracle Container Engine for Kubernetes, or VMware Tanzu Kubernetes Grid.
 
 
-####	Explain the benefits of using container orchestration:
+## Kubernetes 
+evolution of Kubernetes from Borg, Google's very own distributed workload manager.
+Cloud Native Computing Foundation (CNCF) : hosts the Kubernetes project, along with other popular cloud-native projects, such as Prometheus, Fluentd, cri-o,
+containerd, Helm, Envoy, and Contour, just to name a few.
 
-####	Discuss different container orchestration options:
+Define Kubernetes : 
 
-####	Discuss different container orchestration deployment options:
+"Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications."
+Kubernetes comes from greek word which means helmsman or ship pilot.
+Kubernetes is also referred to as k8s (pronounced Kate's), as there are 8 characters between k and s.
+
+Kubernetes was started by Google and, with its v1.0 release in July 2015, Google donated it to the Cloud Native Computing Foundation (CNCF). 
+
+Explain the reasons for using Kubernetes.
+#### Discuss the features of Kubernetes.
+
+Kubernetes offers a very rich set of features for container orchestration. Some of its fully supported features are:
+
+*	Automatic bin packing: 
+Kubernetes automatically schedules containers based on resource needs and constraints, to maximize utilization without sacrificing availability.
+*	Self-healing :
+Kubernetes automatically replaces and reschedules containers from failed nodes. 
+It kills and restarts containers unresponsive to health checks, based on existing rules/policy. 
+It also prevents traffic from being routed to unresponsive containers.
+*	Horizontal scaling :
+With Kubernetes applications are scaled manually or automatically based on CPU or custom metrics utilization.
+*	Service discovery and Load balancing
+Containers receive their own IP addresses from Kubernetes, while it assigns a single Domain Name System (DNS) name 
+to a set of containers to aid in load-balancing requests across the containers of the set.
+
+
+####	Discuss the evolution of Kubernetes from Borg.
+Kubernetes is highly inspired by the Google Borg system, a container and workload orchestrator for its global operations for more than a decade. 
+It is an open source project written in the Go language and licensed under the Apache License, Version 2.0.
+
+"Google's Borg system is a cluster manager that runs hundreds of thousands of jobs, 
+from many thousands of different applications, across a number of clusters each with up to tens of thousands of machines".
+For more than a decade, Borg has been Google's secret, running its worldwide containerized workloads in production.
+Services we use from Google, such as Gmail, Drive, Maps, Docs, etc., they are all serviced using Borg. 
+the features/objects of Kubernetes that can be traced back to Borg, or to lessons learned from it, are:
+*	API servers
+*	Pods
+*	IP-per-Pod
+*	Services
+*	Labels.
+
+Explain the role of the Cloud Native Computing Foundation.
+
+
+
+
