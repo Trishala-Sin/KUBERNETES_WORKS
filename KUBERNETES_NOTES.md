@@ -240,7 +240,7 @@ the features/objects of Kubernetes that can be traced back to Borg, or to lesson
 *	Pods
 *	IP-per-Pod
 *	Services
-*	Labels.
+*	Labels
 
 Explain the role of the Cloud Native Computing Foundation.
 
