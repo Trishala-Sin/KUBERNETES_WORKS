@@ -388,9 +388,31 @@ A scheduler is extremely important and complex in a multi-node Kubernetes cluste
 
 
 #### - Controller Managers
+The controller managers are control plane components on the master node running controllers to regulate the state of the Kubernetes cluster. 
+Controllers are watch-loops continuously running and comparing the cluster's desired state (provided by objects' configuration data) 
+with its current state (obtained from etcd data store via the API server). 
+In case of a mismatch corrective action is taken in the cluster until its current state matches the desired state.
+
+The kube-controller-manager runs controllers responsible to act when nodes become unavailable, to ensure pod counts are as expected, 
+to create endpoints, service accounts, and API access tokens.
+
+The cloud-controller-manager runs controllers responsible to interact with the underlying infrastructure of a cloud provider when nodes become unavailable, 
+to manage storage volumes when provided by a cloud service, and to manage load balancing and routing.
+
+#### - Data Store.
+
+etcd is a strongly consistent, distributed key-value data store used to persist a Kubernetes cluster's state. 
+New data is written to the data store only by appending to it, data is never replaced in the data store. 
+Obsolete data is compacted periodically to minimize the size of the data store.
+Out of all the control plane components, only the API Server is able to communicate with the etcd data store. 
+etcd's CLI management tool - etcdctl, provides backup, snapshot, and restore capabilities which come in handy 
+especially for a single etcd instance Kubernetes cluster - common in Development and learning environments. 
+However, in Stage and Production environments, it is extremely important to replicate the data stores in HA mode, for cluster configuration data resiliency.
+
+Some Kubernetes cluster bootstrapping tools, such as kubeadm, by default, provision stacked etcd master nodes, 
+where the data store runs alongside and shares resources with the other control plane components on the same master node.
 
 
-- Data Store.
 In addition, the master node runs:
 
 - Container Runtime
