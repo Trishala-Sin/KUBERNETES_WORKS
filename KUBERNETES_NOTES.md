@@ -197,7 +197,8 @@ DigitalOcean Kubernetes, Google Kubernetes Engine (GKE), IBM Cloud Kubernetes Se
 
 
 ## Kubernetes 
-evolution of Kubernetes from Borg, Google's very own distributed workload manager.
+
+Evolution of Kubernetes from Borg, Google's very own distributed workload manager.
 Cloud Native Computing Foundation (CNCF) : hosts the Kubernetes project, along with other popular cloud-native projects, such as Prometheus, Fluentd, cri-o,
 containerd, Helm, Envoy, and Contour, just to name a few.
 
@@ -209,7 +210,12 @@ Kubernetes is also referred to as k8s (pronounced Kate's), as there are 8 charac
 
 Kubernetes was started by Google and, with its v1.0 release in July 2015, Google donated it to the Cloud Native Computing Foundation (CNCF). 
 
+
+####	Why Use Kubernetes?
 Explain the reasons for using Kubernetes.
+
+
+
 #### Discuss the features of Kubernetes.
 
 Kubernetes offers a very rich set of features for container orchestration. Some of its fully supported features are:
@@ -225,7 +231,19 @@ With Kubernetes applications are scaled manually or automatically based on CPU o
 *	Service discovery and Load balancing
 Containers receive their own IP addresses from Kubernetes, while it assigns a single Domain Name System (DNS) name 
 to a set of containers to aid in load-balancing requests across the containers of the set.
-
+*	Automated rollouts and rollbacks
+Kubernetes seamlessly rolls out and rolls back application updates and configuration changes, 
+constantly monitoring the application's health to prevent any downtime.
+*	Secret and configuration management
+Kubernetes manages sensitive data and configuration details for an application separately from the container image, 
+in order to avoid a re-build of the respective image. Secrets consist of sensitive/confidential information passed 
+to the application without revealing the sensitive content to the stack configuration, like on GitHub.
+*	Storage orchestration
+Kubernetes automatically mounts software-defined storage (SDS) solutions to containers from local storage, external cloud providers, 
+distributed storage, or network storage systems.
+*	Batch execution
+Kubernetes supports batch execution, long-running jobs, and replaces failed containers.
+support for role-based access control (RBAC) is stable only as of the Kubernetes 1.8 release.
 
 ####	Discuss the evolution of Kubernetes from Borg.
 Kubernetes is highly inspired by the Google Borg system, a container and workload orchestrator for its global operations for more than a decade. 
