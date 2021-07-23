@@ -214,7 +214,27 @@ Kubernetes was started by Google and, with its v1.0 release in July 2015, Google
 ####	Why Use Kubernetes?
 Explain the reasons for using Kubernetes.
 
+Kubernetes' architecture is modular and pluggable. 
+Not only that it orchestrates modular, decoupled microservices type applications, but also its architecture follows decoupled microservices patterns. 
+Kubernetes' functionality can be extended by writing custom resources, operators, custom APIs, scheduling rules or plugins.
+Kubernetes is also portable and extensible. It can be deployed in many environments such as local or remote Virtual Machines, bare metal, or in public/private/hybrid/multi-cloud setups. 
+It supports and it is supported by many 3rd party open source tools which enhance Kubernetes' capabilities and provide a feature-rich experience to its users.
 
+It is a solution for workload management in banking, education, finance and investments, gaming, information technology, media and streaming, online retail, 
+ridesharing, telecommunications, and many other industries. There are numerous user case studies and success stories on the Kubernetes website:
+
+BlaBlaCar
+BlackRock
+Box
+eBay
+Haufe Group
+Huawei
+IBM
+ING
+Nokia
+Pearson
+Wikimedia
+And many more.
 
 #### Discuss the features of Kubernetes.
 
@@ -260,8 +280,124 @@ the features/objects of Kubernetes that can be traced back to Borg, or to lesson
 *	Services
 *	Labels
 
-Explain the role of the Cloud Native Computing Foundation.
+####	Explain the role of the Cloud Native Computing Foundation.
+
+The Cloud Native Computing Foundation (CNCF) is one of the projects hosted by the Linux Foundation. 
+CNCF aims to accelerate the adoption of containers, microservices, and cloud-native applications.
+
+CNCF hosts a multitude of projects, with more to be added in the future. 
+CNCF provides resources to each of the projects, but, at the same time, each project continues to operate independently under its pre-existing governance structure
+ and with its existing maintainers. 
+Projects within CNCF are categorized based on achieved status: Sandbox, Incubating, and Graduated. 
+At the time of this writing, a dozen projects had reached Graduated status with many more Incubating and in the Sandbox.
+
+Graduated projects:
+
+Kubernetes for container orchestration
+Prometheus for monitoring
+Envoy for service mesh
+CoreDNS for service discovery
+containerd for container runtime
+Fluentd for logging
+Harbor for registry
+Helm for package management
+Vitess for cloud-native storage
+Jaeger for distributed tracing
+TUF for software updates
+TiKV for key/value store
+
+For Kubernetes, the Cloud Native Computing Foundation:
+
+*	Provides a neutral home for the Kubernetes trademark and enforces proper usage
+*	Provides license scanning of core and vendor code
+*	Offers legal guidance on patent and copyright issues
+*	Creates open source learning curriculum, training, and certification for both Kubernetes administrators (CKA) and application developers (CKAD)
+*	Manages a software conformance working group
+*	Actively markets Kubernetes
+*	Supports ad hoc activities
+*	Sponsors conferences and meetup events.
+
+####	KUBERNETES ARCHITECHTURE
+
+we will explore the Kubernetes architecture, the components of its control plane, the master and worker nodes, 
+the cluster state management with etcd 
+and the network setup requirements. 
+We will also learn about the Container Network Interface (CNI), as Kubernetes' network specification. 
+
+####	Discuss the Kubernetes architecture.
+
+At a very high level, Kubernetes has the following main components:
+
+*	One or more master nodes, part of the control plane 
+*	One or more worker nodes. 
+![Containerization](https://github.com/Trishala-Sin/KUBERNETES_WORKS/blob/master/img/Components_of_KUBE.PNG?raw=true)
+####	Explain the different components for master and worker nodes.
+
+The master node provides a running environment for the control plane responsible for managing the state of a Kubernetes cluster, and it is the brain behind all operations 
+inside the cluster. The control plane components are agents with very distinct roles in the cluster's management. 
+In order to communicate with the Kubernetes cluster, users send requests to the control plane via 
+- a Command Line Interface (CLI) tool, 
+- a Web User-Interface (Web UI) Dashboard, or 
+- Application Programming Interface (API).
+
+It is important to keep the control plane running at all costs. Losing the control plane may introduce downtime, causing service disruption to clients, 
+with possible loss of business. To ensure the control plane's fault tolerance, master node replicas can be added to the cluster, configured in High-Availability (HA)
+mode. While only one of the master nodes is dedicated to actively manage the cluster, the control plane components stay in sync across the master node replicas.
+This type of configuration adds resiliency to the cluster's control plane, should the active master node fail.
+
+To persist the Kubernetes cluster's state, all cluster configuration data is saved to etcd. 
+etcd is a distributed key-value store which only holds cluster state related data, no client workload data. 
+etcd may be configured on the master node (stacked topology), or on its dedicated host (external topology) to help reduce the chances of data store 
+loss by decoupling it from the other control plane agents.
+
+With stacked etcd topology, HA master node replicas ensure the etcd data store's resiliency as well. 
+However, that is not the case with external etcd topology, where the etcd hosts have to be separately replicated for HA, 
+a configuration that introduces the need for additional hardware.
+
+A master node runs the following control plane components:
+
+#### - API Server
+All the administrative tasks are coordinated by the kube-apiserver, a central control plane component running on the master node. 
+The API Server intercepts RESTful calls from users, operators and external agents, then validates and processes them. 
+During processing the API Server reads the Kubernetes cluster's current state from the etcd data store, and after a call's execution, 
+the resulting state of the Kubernetes cluster is saved in the distributed key-value data store for persistence. 
+The API Server is the only master plane component to talk to the etcd data store, both to read from and to save Kubernetes cluster state information 
+- acting as a middle interface for any other control plane agent inquiring about the cluster's state.
+
+The API Server is highly configurable and customizable. It can scale horizontally, but it also supports the addition of custom secondary API Servers, 
+a configuration that transforms the primary API Server into a proxy to all secondary, 
+custom API Servers and routes all incoming RESTful calls to them based on custom defined rules.
+
+#### - Scheduler
+
+The role of the kube-scheduler is to assign new workload objects, such as pods, to nodes. During the scheduling process, 
+decisions are made based on current Kubernetes cluster state and new object's requirements.
+The scheduler obtains from the etcd data store, via the API Server, resource usage data for each worker node in the cluster.
+The scheduler also receives from the API Server the new object's requirements which are part of its configuration data.
+Requirements may include constraints that users and operators set, such as scheduling work on a node labeled with disk==ssd key/value pair. 
+The scheduler also takes into account Quality of Service (QoS) requirements, data locality, affinity, anti-affinity, taints, toleration, cluster topology, etc.
+Once all the cluster data is available, the scheduling algorithm filters the nodes with predicates to isolate the possible node candidates which then are scored 
+with priorities in order to select the one node that satisfies all the requirements for hosting the new workload.
+The outcome of the decision process is communicated back to the API Server, which then delegates the workload deployment with other control plane agents. 
+
+The scheduler is highly configurable and customizable through scheduling policies, plugins, and profiles. 
+Additional custom schedulers are also supported, then the object's configuration data should include the name of the custom scheduler expected to make the 
+scheduling decision for that particular object; 
+if no such data is included, the default scheduler is selected instead.
+A scheduler is extremely important and complex in a multi-node Kubernetes cluster.
 
 
+#### - Controller Managers
 
+
+- Data Store.
+In addition, the master node runs:
+
+- Container Runtime
+- Node Agent
+- Proxy.
+
+####	Discuss about cluster state management with etcd.
+
+####	Review the Kubernetes network setup requirements.
 
