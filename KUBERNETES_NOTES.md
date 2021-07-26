@@ -431,12 +431,53 @@ Any node can be treated as a master.
 
 ![Containerization](https://github.com/Trishala-Sin/KUBERNETES_WORKS/blob/master/img/master_follow.PNG?raw=true)
 
-
 In addition, the master node runs:
 
 - Container Runtime
 - Node Agent
 - Proxy.
+
+###	Worker Node Overview
+
+A worker node provides a running environment for client applications. 
+Though containerized microservices, these applications are encapsulated in Pods, controlled by the cluster control plane agents running on the master node. 
+
+A Pod is the smallest scheduling unit in Kubernetes. 
+It is a logical collection of one or more containers scheduled together, and the collection can be started, stopped, or rescheduled as a single unit of work. 
+
+Pods are scheduled on worker nodes, where they find required compute, memory and storage resources to run, and networking to talk to each other and the outside world. 
+
+Also, in a multi-worker Kubernetes cluster, the network traffic between client users and the containerized applications deployed in Pods is handled directly 
+by the worker nodes, and is not routed through the master node.
+
+A worker node has the following components:
+
+-	Container Runtime
+-	Node Agent - kubelet
+-	Proxy - kube-proxy
+-	Addons for DNS, Dashboard user interface, cluster-level monitoring and logging.
+
+Although Kubernetes is described as a "container orchestration engine", it does not have the capability to directly handle containers. 
+In order to manage a container's lifecycle, Kubernetes requires a container runtime on the node where a Pod and its containers are to be scheduled. 
+Kubernetes supports many container runtimes:
+
+-	Docker : although a container platform which uses containerd as a container runtime, it is the most popular container runtime used with Kubernetes
+-	CRI-O : a lightweight container runtime for Kubernetes, it also supports Docker image registries
+-	containerd : a simple and portable container runtime providing robustness
+-	frakti : a hypervisor-based container runtime for Kubernetes
+
+##### Components of worker node : Node - Agent : 
+
+The kubelet is an agent running on each node and communicates with the control plane components from the master node. 
+It receives Pod definitions, primarily from the API Server, and interacts with the container runtime on the node to run containers associated with the Pod. 
+It also monitors the health and resources of Pods running containers.
+
+The kubelet connects to container runtimes though a plugin based interface - the Container Runtime Interface (CRI). 
+The CRI consists of protocol buffers, gRPC API, libraries, and additional specifications and tools that are currently under development. 
+In order to connect to interchangeable container runtimes, kubelet uses a shim application which provides a clear abstraction layer between kubelet 
+and the container runtime. 
+
+![Containerization](https://github.com/Trishala-Sin/KUBERNETES_WORKS/blob/master/img/CRI.PNG?raw=true)
 
 ####	Discuss about cluster state management with etcd.
 
