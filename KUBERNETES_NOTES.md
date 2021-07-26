@@ -479,6 +479,37 @@ and the container runtime.
 
 ![Containerization](https://github.com/Trishala-Sin/KUBERNETES_WORKS/blob/master/img/CRI.PNG?raw=true)
 
+As shown above, the kubelet acting as grpc client connects to the CRI shim acting as grpc server to perform container and image operations. 
+The CRI implements two services: ImageService and RuntimeService. 
+The ImageService is responsible for all the image-related operations, while the RuntimeService is responsible for all the Pod and container-related operations.
+
+Container runtimes used to be hard-coded into kubelet, but since the CRI was introduced, 
+Kubernetes has become more flexible to use different container runtimes without the need to recompile. 
+Any container runtime that implements the CRI can be used by Kubernetes to manage Pods, containers, and container images.
+
+#### Worker Node Components: kubelet - CRI shims :
+
+Shims are CRI implementations, or interfaces, specific to each container runtime supported by Kubernetes. Below we present some examples of CRI shims:
+
+*	dockershim
+With dockershim, containers are created using Docker installed on the worker nodes. Internally, Docker uses containerd to create and manage containers:
+
+![Containerization](https://github.com/Trishala-Sin/KUBERNETES_WORKS/blob/master/img/dockershim.PNG?raw=true)
+*	cri-containerd
+With cri-containerd, we can directly use containerd to create and manage containers:
+*	CRI-O
+CRI-O enables the use of any Open Container Initiative (OCI) compatible runtime with Kubernetes. At the present, 
+CRI-O supported runC and Clear Containers as container runtimes. 
+However, in principle, any OCI-compliant runtime can be plugged-in.
+![Containerization](https://github.com/Trishala-Sin/KUBERNETES_WORKS/blob/master/img/CRI-O.PNG?raw=true)
+
+*	frakti 
+frakti enables CRI implementation through hardware virtualization, aimed to achieve a higher level of security and isolation than the 
+traditional Linux OS level containers based on cgroups and namespaces. 
+The frakti CRI shim is aimed at enabling kubelet to interact with Kata Containers:
+
+![Containerization](https://github.com/Trishala-Sin/KUBERNETES_WORKS/blob/master/img/frakti.PNG?raw=true)
+
 ####	Discuss about cluster state management with etcd.
 
 ####	Review the Kubernetes network setup requirements.
