@@ -405,12 +405,31 @@ etcd is a strongly consistent, distributed key-value data store used to persist 
 New data is written to the data store only by appending to it, data is never replaced in the data store. 
 Obsolete data is compacted periodically to minimize the size of the data store.
 Out of all the control plane components, only the API Server is able to communicate with the etcd data store. 
+
+etcd is written in the Go programming language. In Kubernetes, besides storing the cluster state,
+etcd is also used to store configuration details such as subnets, ConfigMaps, Secrets, etc.
+
 etcd's CLI management tool - etcdctl, provides backup, snapshot, and restore capabilities which come in handy 
 especially for a single etcd instance Kubernetes cluster - common in Development and learning environments. 
 However, in Stage and Production environments, it is extremely important to replicate the data stores in HA mode, for cluster configuration data resiliency.
 
 Some Kubernetes cluster bootstrapping tools, such as kubeadm, by default, provision stacked etcd master nodes, 
 where the data store runs alongside and shares resources with the other control plane components on the same master node.
+
+![Containerization](https://github.com/Trishala-Sin/KUBERNETES_WORKS/blob/master/img/stacked_etcd_cluster.PNG?raw=true)
+
+For data store isolation from the control plane components, the bootstrapping process can be configured for an external etcd topology,
+where the data store is provisioned on a dedicated separate host, thus reducing the chances of an etcd failure.
+
+![Containerization](https://github.com/Trishala-Sin/KUBERNETES_WORKS/blob/master/img/external_etcd_cluster.PNG?raw=true)
+
+Both stacked and external etcd configurations support HA configurations. etcd is based on the Raft Consensus Algorithm which allows 
+a collection of machines to work as a coherent group that can survive the failures of some of its members. 
+At any given time, one of the nodes in the group will be the master, and the rest of them will be the followers. 
+etcd gracefully handles master elections and can tolerate node failure, including master node failures. 
+Any node can be treated as a master. 
+
+![Containerization](https://github.com/Trishala-Sin/KUBERNETES_WORKS/blob/master/img/master_follow.PNG?raw=true)
 
 
 In addition, the master node runs:
